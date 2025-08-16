@@ -6,15 +6,16 @@
 
 void setup() {
   // Set pin as output
-}
   pinMode(LED_PIN, OUTPUT);
+}
+  
 void loop() {
 
   // Turn LED on
   digitalWrite(LED_PIN, HIGH);
-  delay(1000); // wait 1 second
+  delay(100); // wait 1 second
 
   // Turn LED off
   digitalWrite(LED_PIN, LOW);
-  delay(1000); // wait 1 second
+  delay(100); // wait 1 second
 }
