@@ -79,16 +79,16 @@ void setup() {
   
 void loop() {
 
-  // setMotor(200,200);
-  // delay(500);
-  // setMotor(-200,-200);
-  // delay(500);
+  setMotor(200,200);
+  delay(500);
+  setMotor(-200,-200);
+  delay(500);
 
-  // Turn LED on
-  digitalWrite(LED_PIN, HIGH);
-  delay(100); // wait 1 second
+  // // Turn LED on
+  // digitalWrite(LED_PIN, HIGH);
+  // delay(100); // wait 1 second
 
-  // Turn LED off
-  digitalWrite(LED_PIN, LOW);
-  delay(100); // wait 1 second
+  // // Turn LED off
+  // digitalWrite(LED_PIN, LOW);
+  // delay(100); // wait 1 second
 }
