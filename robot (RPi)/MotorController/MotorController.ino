@@ -79,7 +79,7 @@ void setup() {
   
 void loop() {
 
-  setMotor(255,255);
+  setMotor(512,512);
   delay(1000);
   setMotor(-255,-255);
   delay(1000);
