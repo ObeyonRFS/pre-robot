@@ -56,8 +56,8 @@ void setup_pin_for_L298N() {
   pinMode(IN3, OUTPUT);
   pinMode(IN4, OUTPUT);
 
-  ledcAttachChannel(ENB, 30000, 8, 0);
-  ledcAttachChannel(ENA, 30000, 8, 1);
+  ledcAttachChannel(ENB, 1000, 8, 0);
+  ledcAttachChannel(ENA, 1000, 8, 1);
 
   // Configure PWM for ENA and ENB
   // ledcSetup(0, 1000, 8); // channel 0, 1kHz, 8-bit resolution
