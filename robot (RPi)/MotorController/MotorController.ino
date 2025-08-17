@@ -22,30 +22,30 @@ void setMotor(int motorL, int motorR) {
   if (motorL > 0) {
     digitalWrite(IN3, HIGH);
     digitalWrite(IN4, LOW);
-    ledcWrite(0, motorL);   // channel 0 for ENB
+    ledcWrite(ENB, motorL);   // channel 0 for ENB
   } else if (motorL < 0) {
     digitalWrite(IN3, LOW);
     digitalWrite(IN4, HIGH);
-    ledcWrite(0, -motorL);  // take absolute value
+    ledcWrite(ENB, -motorL);  // take absolute value
   } else {
     digitalWrite(IN3, LOW);
     digitalWrite(IN4, LOW);
-    ledcWrite(0, 0);
+    ledcWrite(ENB, 0);
   }
 
   // --- Right Motor ---
   if (motorR > 0) {
     digitalWrite(IN1, HIGH);
     digitalWrite(IN2, LOW);
-    ledcWrite(1, motorR);   // channel 1 for ENA
+    ledcWrite(ENA, motorR);   // channel 1 for ENA
   } else if (motorR < 0) {
     digitalWrite(IN1, LOW);
     digitalWrite(IN2, HIGH);
-    ledcWrite(1, -motorR);
+    ledcWrite(ENA, -motorR);
   } else {
     digitalWrite(IN1, LOW);
     digitalWrite(IN2, LOW);
-    ledcWrite(1, 0);
+    ledcWrite(ENA, 0);
   }
 }
 
@@ -56,8 +56,8 @@ void setup_pin_for_L298N() {
   pinMode(IN3, OUTPUT);
   pinMode(IN4, OUTPUT);
 
-  ledcAttachChannel(ENB, 1000, 8, 0);
-  ledcAttachChannel(ENA, 1000, 8, 1);
+  ledcAttachChannel(ENB, 30000, 8, 0);
+  ledcAttachChannel(ENA, 30000, 8, 1);
 
   // Configure PWM for ENA and ENB
   // ledcSetup(0, 1000, 8); // channel 0, 1kHz, 8-bit resolution
@@ -71,6 +71,7 @@ void setup_pin_for_L298N() {
 
 
 void setup() {
+  Serial.begin(115200);
   // Set pin as output
   pinMode(LED_PIN, OUTPUT);
   setup_pin_for_L298N();
