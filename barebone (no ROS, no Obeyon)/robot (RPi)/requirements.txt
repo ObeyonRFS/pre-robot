@@ -1,4 +1,4 @@
 esptool
 pyserial
 websockets
-opencv-python
+opencv-python-headless
