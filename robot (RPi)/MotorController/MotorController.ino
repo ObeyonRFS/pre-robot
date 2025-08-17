@@ -79,10 +79,13 @@ void setup() {
   
 void loop() {
 
-  setMotor(200,200);
-  delay(500);
-  setMotor(-200,-200);
-  delay(500);
+  setMotor(255,255);
+  delay(1000);
+  setMotor(-255,-255);
+  delay(1000);
+
+  setMotor(0,0);
+  delay(5000);
 
   // // Turn LED on
   // digitalWrite(LED_PIN, HIGH);
