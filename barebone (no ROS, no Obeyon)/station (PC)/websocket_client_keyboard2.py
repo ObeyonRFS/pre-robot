@@ -14,6 +14,14 @@ KEY_TO_MOTOR = {
     'd': {"L": 0.5, "R": -0.5},  # turn right
 }
 
+def sign(x):
+    if x > 0:
+        return 1
+    elif x < 0:
+        return -1
+    else:
+        return 0
+
 async def send_motor_commands(websocket):
     while True:
         if kb.is_pressed("q"):
@@ -38,8 +46,8 @@ async def send_motor_commands(websocket):
         powerL:int=0
         powerR:int=0
         if percentL!=0.0 or percentR!=0.0:
-            powerL = int(power_min + (power_max - power_min) * percentL)
-            powerR = int(power_min + (power_max - power_min) * percentR)
+            powerL = sign(percentL) * int(power_min + (power_max - power_min) * abs(percentL))
+            powerR = sign(percentR) * int(power_min + (power_max - power_min) * abs(percentR))
 
         message = {
             "command": "set_motor_power",
@@ -49,7 +57,7 @@ async def send_motor_commands(websocket):
         await websocket.send(json.dumps(message))
         print(f"➡️ Sent: {message}")
 
-        await asyncio.sleep(0.01)
+        await asyncio.sleep(0.5)
 
 async def receive_messages(websocket):
     try:
