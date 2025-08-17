@@ -6,7 +6,7 @@
 // L298N config for left side motor
 #define ENB 19
 #define IN4 18
-#define IN3 15
+#define IN3 5
 
 // L298N config for right side motor
 #define IN2 17
@@ -72,22 +72,22 @@ void setup_pin_for_L298N() {
 
 void setup() {
   // Set pin as output
-  // pinMode(LED_PIN, OUTPUT);
+  pinMode(LED_PIN, OUTPUT);
   setup_pin_for_L298N();
 }
   
 void loop() {
 
-  setMotor(200,200);
-  delay(500);
-  setMotor(-200,-200);
-  delay(500);
+  // setMotor(200,200);
+  // delay(500);
+  // setMotor(-200,-200);
+  // delay(500);
 
-  // // Turn LED on
-  // digitalWrite(LED_PIN, HIGH);
-  // delay(100); // wait 1 second
+  // Turn LED on
+  digitalWrite(LED_PIN, HIGH);
+  delay(100); // wait 1 second
 
-  // // Turn LED off
-  // digitalWrite(LED_PIN, LOW);
-  // delay(100); // wait 1 second
+  // Turn LED off
+  digitalWrite(LED_PIN, LOW);
+  delay(100); // wait 1 second
 }
