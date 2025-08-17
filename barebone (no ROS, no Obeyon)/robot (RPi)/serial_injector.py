@@ -2,6 +2,7 @@ import serial
 import esp32_finder
 import sys
 import json
+import time
 
 
 if __name__=="__main__":
