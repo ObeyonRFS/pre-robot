@@ -26,8 +26,8 @@ async def serial_reader(websocket_set):
         if line:
             print(f"⬅️ From ESP32: {line}")
             # forward to all websocket clients
-            if websocket_set:
-                await asyncio.gather(*[ws.send(line) for ws in websocket_set])
+            # if websocket_set:
+            #     await asyncio.gather(*[ws.send(line) for ws in websocket_set])
         await asyncio.sleep(0.01)
 
 # --- WebSocket handler ---
