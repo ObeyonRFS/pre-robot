@@ -4,12 +4,38 @@
 // Define LED pin
 #define LED_PIN 2   // On-board LED is usually GPIO2
 
+#define LEFT_C1 13
+#define LEFT_C2 12
+#define LEFT_encoderA 13
+#define LEFT_encoderB 12
+
+volatile long left_encoder_count = 0;
+unsigned long left_lastTime = 0;
+float left_motorRPM = 0.0;
+
+const int PPR = 360;
+
+void IRAM_ATTR left_encoderISR(){
+  if (digitalRead(LEFT_encoderB)==HIGH){
+    left_encoder_count+=1;
+  }else{
+    left_encoder_count-=1;
+  }
+}
+
 
 void setup() {
   Serial.begin(115200);
   // Set pin as output
   pinMode(LED_PIN, OUTPUT);
+  pinMode(LEFT_encoderA, INPUT);
+  pinMode(LEFT_encoderB, INPUT);
+
+  attachInterrupt(digitalPinToInterrupt(LEFT_encoderA),left_encoderISR, RISING);
+
   setup_pin_for_L298N();
+
+  left_lastTime=millis();
 }
 
 void processJson(String &jsonString){
@@ -34,16 +60,37 @@ void processJson(String &jsonString){
 
   
 void loop() {
-  static String input="";
+  //Receive command
+  // static String input="";
+  // while(Serial.available()){
+  //   char c=(char)Serial.read();
+  //   if (c=='\n'){
+  //     processJson(input);
+  //     input="";
+  //   }else{
+  //     input+=c;
+  //   }
+  // }
 
-  while(Serial.available()){
-    char c=(char)Serial.read();
-    if (c=='\n'){
-      processJson(input);
-      input="";
-    }else{
-      input+=c;
-    }
+
+  //send motor speed
+  unsigned long currentTime = millis();
+  unsigned long dt = currentTime - left_lastTime;
+
+  if(dt>=100){//calculate every 100ms
+    //Calculate speed in rpm
+    long count;
+    noInterrupts();
+    count = left_encoder_count;
+    left_encoder_count=0;
+    interrupts();
+
+    left_motorRPM = (count/(float)PPR) * (60000.0 / dt);
+
+    Serial.print("Motor RPM: ");
+    Serial.println(left_motorRPM);
+
+    left_lastTime = currentTime;
   }
 
 
