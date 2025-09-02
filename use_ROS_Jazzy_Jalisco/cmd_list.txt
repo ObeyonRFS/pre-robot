@@ -1,0 +1,3 @@
+to remove old key entry, such as reinstall ubuntu on raspberry pi
+
+ssh-keygen -R urpi
