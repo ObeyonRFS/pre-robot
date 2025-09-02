@@ -1,6 +1,7 @@
 import asyncio
 import json
 import keyboard as kb
+import socket
 
 # --- Motor mapping ---
 power_min = 100
@@ -67,12 +68,14 @@ async def send_motor_commands(protocol: UDPClientProtocol, server_addr):
             protocol.transport.sendto(json_msg.encode(), server_addr)
             print(f"➡️ Sent: {message}")
 
-        await asyncio.sleep(0.01)
+        # await asyncio.sleep(0.01)
+        await asyncio.sleep(0)
 
 
 async def main():
     loop = asyncio.get_running_loop()
-    server_addr = ("urpi.local", 8765)  # replace with server IP or hostname
+    # server_addr = ("urpi.local", 8765)  # replace with server IP or hostname
+    server_addr = (socket.gethostbyname("urpi.local"),8765)
 
     transport, protocol = await loop.create_datagram_endpoint(
         lambda: UDPClientProtocol(),

@@ -64,7 +64,8 @@ async def send_motor_commands(websocket):
             await websocket.send(json.dumps(message))
             print(f"➡️ Sent: {message}")
 
-        await asyncio.sleep(0.01)
+        # await asyncio.sleep(0.01)
+        await asyncio.sleep(0.001)
 
 async def receive_messages(websocket):
     try:
