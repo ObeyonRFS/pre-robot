@@ -72,26 +72,30 @@ void loop() {
   //   }
   // }
 
+  //count PPR
+  Serial.println(left_encoder_count);
+  delay(100);
+
 
   //send motor speed
-  unsigned long currentTime = millis();
-  unsigned long dt = currentTime - left_lastTime;
+  // unsigned long currentTime = millis();
+  // unsigned long dt = currentTime - left_lastTime;
 
-  if(dt>=100){//calculate every 100ms
-    //Calculate speed in rpm
-    long count;
-    noInterrupts();
-    count = left_encoder_count;
-    left_encoder_count=0;
-    interrupts();
+  // if(dt>=100){//calculate every 100ms
+  //   //Calculate speed in rpm
+  //   long count;
+  //   noInterrupts();
+  //   count = left_encoder_count;
+  //   left_encoder_count=0;
+  //   interrupts();
 
-    left_motorRPM = (count/(float)PPR) * (60000.0 / dt);
+  //   left_motorRPM = (count/(float)PPR) * (60000.0 / dt);
 
-    Serial.print("Motor RPM: ");
-    Serial.println(left_motorRPM);
+  //   Serial.print("Motor RPM: ");
+  //   Serial.println(left_motorRPM);
 
-    left_lastTime = currentTime;
-  }
+  //   left_lastTime = currentTime;
+  // }
 
 
   // setMotor(255,-255);
