@@ -4,6 +4,10 @@
 // Define LED pin
 #define LED_PIN 2   // On-board LED is usually GPIO2
 
+
+
+const int PPR = 2950;
+
 #define LEFT_C1 13
 #define LEFT_C2 12
 #define LEFT_encoderA 13
@@ -13,7 +17,6 @@ volatile long left_encoder_count = 0;
 unsigned long left_lastTime = 0;
 float left_motorRPM = 0.0;
 
-const int PPR = 360;
 
 void IRAM_ATTR left_encoderISR(){
   if (digitalRead(LEFT_encoderB)==HIGH){
@@ -24,18 +27,43 @@ void IRAM_ATTR left_encoderISR(){
 }
 
 
+#define RIGHT_C1 14
+#define RIGHT_C2 27
+#define RIGHT_encoderA 14
+#define RIGHT_encoderB 27
+
+volatile long right_encoder_count = 0;
+unsigned long right_lastTime = 0;
+float right_motorRPM = 0.0;
+
+void IRAM_ATTR right_encoderISR(){
+  if (digitalRead(RIGHT_encoderB)==HIGH){
+    right_encoder_count-=1;
+  }else{
+    right_encoder_count+=1;
+  }
+}
+
+
+
 void setup() {
   Serial.begin(115200);
   // Set pin as output
   pinMode(LED_PIN, OUTPUT);
   pinMode(LEFT_encoderA, INPUT);
   pinMode(LEFT_encoderB, INPUT);
-
   attachInterrupt(digitalPinToInterrupt(LEFT_encoderA),left_encoderISR, RISING);
+  pinMode(RIGHT_encoderA, INPUT);
+  pinMode(RIGHT_encoderB, INPUT);
+  attachInterrupt(digitalPinToInterrupt(RIGHT_encoderA),right_encoderISR, RISING);
+
+  
+
 
   setup_pin_for_L298N();
 
   left_lastTime=millis();
+  right_lastTime=millis();
 }
 
 void processJson(String &jsonString){
@@ -72,30 +100,35 @@ void loop() {
   //   }
   // }
 
-  //count PPR
-  Serial.println(left_encoder_count);
-  delay(100);
-
 
   //send motor speed
-  // unsigned long currentTime = millis();
-  // unsigned long dt = currentTime - left_lastTime;
+  unsigned long currentTime = millis();
+  unsigned long dt = currentTime - left_lastTime;
 
-  // if(dt>=100){//calculate every 100ms
-  //   //Calculate speed in rpm
-  //   long count;
-  //   noInterrupts();
-  //   count = left_encoder_count;
-  //   left_encoder_count=0;
-  //   interrupts();
+  if(dt>=100){//calculate every 100ms
+    //Calculate speed in rpm
+    long left_count;
+    long right_count;
+    noInterrupts();
+    left_count = left_encoder_count;
+    left_encoder_count=0;
+    right_count = right_encoder_count;
+    right_encoder_count=0;
+    interrupts();
 
-  //   left_motorRPM = (count/(float)PPR) * (60000.0 / dt);
+    left_motorRPM = (left_count/(float)PPR) * (60000.0 / dt);
+    right_motorRPM = (right_count/(float)PPR) * (60000.0 / dt);
 
-  //   Serial.print("Motor RPM: ");
-  //   Serial.println(left_motorRPM);
 
-  //   left_lastTime = currentTime;
-  // }
+    Serial.print("Motor RPM: ");
+    Serial.print(left_motorRPM);
+    Serial.print(" ");
+    Serial.println(right_motorRPM);
+
+    left_lastTime = currentTime;
+    right_lastTime = currentTime;
+
+  }
 
 
   // setMotor(255,-255);
