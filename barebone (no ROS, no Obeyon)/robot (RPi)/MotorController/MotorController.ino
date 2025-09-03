@@ -34,9 +34,16 @@ void processJson(String &jsonString){
   }
 
   if (strcmp(command, "set_motor_PID")==0){
+    motor_with_PID = false;
     Kp=doc["parameters"]["Kp"];
     Ki=doc["parameters"]["Ki"];
     Kd=doc["parameters"]["Kd"];
+
+    prev_error_L = 0;
+    integral_L = 0;
+    prev_error_R = 0;
+    integral_R = 0;
+    setMotorPower(0,0);
     Serial.printf("Motor's PID set -> Kp:%.2f  Ki:%.2f Kd:%.2f\n", Kp, Ki, Kd);
   }
 }
