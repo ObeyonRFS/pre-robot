@@ -21,7 +21,7 @@ try:
     health = lidar.get_health()
     print("LIDAR Health:", health)
 
-    lidar.start_motor()
+    # lidar.start_motor()
 
     # Start scanning
     print("Starting scan...")
