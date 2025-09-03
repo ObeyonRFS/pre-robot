@@ -110,8 +110,8 @@ bool motor_with_PID = false;
 // float Kd = 0.1;
 
 float Kp = 20;
-float Ki = 12;
-float Kd = 0;
+float Ki = 3;
+float Kd = 3;
 
 float target_motorRPM_L = 0.0;
 float target_motorRPM_R = 0.0;
