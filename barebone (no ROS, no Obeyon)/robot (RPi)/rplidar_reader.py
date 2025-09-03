@@ -12,6 +12,7 @@ PORT_NAME = ports[0]
 
 lidar = RPLidar(PORT_NAME)
 
+
 try:
     # Print some basic info
     info = lidar.get_info()
@@ -19,6 +20,8 @@ try:
 
     health = lidar.get_health()
     print("LIDAR Health:", health)
+
+    lidar.start_motor()
 
     # Start scanning
     print("Starting scan...")
