@@ -4,15 +4,7 @@
 // Define LED pin
 #define LED_PIN 2   // On-board LED is usually GPIO2
 
-void setup() {
-  Serial.begin(115200);
-  // Set pin as output
-  pinMode(LED_PIN, OUTPUT);
 
-  setup_pin_for_L298N();
-  setup_pin_for_motor_spd_encoding();
-
-}
 
 void processJson(String &jsonString){
   StaticJsonDocument<200> doc;
@@ -38,19 +30,56 @@ void processJson(String &jsonString){
   }
 }
 
+void task_process_serial(void *pvParameters){
+  while(true){
+    static String input="";
+    while(Serial.available()){
+      char c=(char)Serial.read();
+      if (c=='\n'){
+        processJson(input);
+        input="";
+      }else{
+        input+=c;
+      }
+    }
+  }
+  
+}
+
+
+
+
+void setup() {
+  Serial.begin(115200);
+  // Set pin as output
+  pinMode(LED_PIN, OUTPUT);
+
+  setup_pin_for_L298N();
+  setup_pin_for_motor_spd_encoding();
+
+  xTaskCreate(
+    task_process_serial,
+    "Motor speed publisher",
+    1024,
+    NULL,
+    1,
+    NULL
+  );
+
+}
   
 void loop() {
   //Receive command
-  static String input="";
-  while(Serial.available()){
-    char c=(char)Serial.read();
-    if (c=='\n'){
-      processJson(input);
-      input="";
-    }else{
-      input+=c;
-    }
-  }
+  // static String input="";
+  // while(Serial.available()){
+  //   char c=(char)Serial.read();
+  //   if (c=='\n'){
+  //     processJson(input);
+  //     input="";
+  //   }else{
+  //     input+=c;
+  //   }
+  // }
 
 
   //send motor speed
