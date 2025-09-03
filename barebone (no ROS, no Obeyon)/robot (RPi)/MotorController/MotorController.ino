@@ -59,8 +59,8 @@ void setup() {
 
   xTaskCreate(
     task_process_serial,
-    "Motor speed publisher",
-    1024,
+    "JSON from Serial processor",
+    4096,
     NULL,
     1,
     NULL
