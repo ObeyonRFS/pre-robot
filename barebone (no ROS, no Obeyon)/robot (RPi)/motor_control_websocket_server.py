@@ -1,12 +1,12 @@
 import asyncio
 import json
 import serial
-import esp32_finder
+import ports_finder
 import time
 import websockets
 
 # --- Serial Setup ---
-ports = esp32_finder.find_possible_ESP32_ports()
+ports = ports_finder.find_possible_ESP32_ports()
 if len(ports) != 1:
     raise SystemExit("ESP32 not found or too many devices")
 

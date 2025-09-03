@@ -2,3 +2,4 @@ esptool
 pyserial
 websockets
 opencv-python-headless
+rplidar

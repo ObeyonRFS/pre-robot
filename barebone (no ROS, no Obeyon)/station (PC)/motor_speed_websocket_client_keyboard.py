@@ -4,10 +4,10 @@ import json
 import keyboard as kb
 
 KEY_TO_MOTOR = {
-    'w': {"L": 15, "R": 15},    # forward
-    's': {"L": -15, "R": -15},  # backward
-    'a': {"L": -7.5, "R": 7.5},  # turn left
-    'd': {"L": 7.5, "R": -7.5},  # turn right
+    'w': {"L": 20, "R": 20},    # forward
+    's': {"L": -20, "R": -20},  # backward
+    'a': {"L": -15, "R": 15},  # turn left
+    'd': {"L": 15, "R": -15},  # turn right
     'space': {"L": 0, "R": 0},
 }
 

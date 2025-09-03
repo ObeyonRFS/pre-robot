@@ -8,6 +8,14 @@ def find_possible_ESP32_ports() -> List[str]:
             r.append(port.device)
     return r
 
+def find_possible_RPLidar_ports() -> List[str]:
+    ports = serial.tools.list_ports.comports()
+    r=[]
+    for port in ports:
+        if "CP2102 USB to UART Bridge Controller" in port.description:
+            r.append(port.device)
+    return r
+
 
 
 if __name__=="__main__":
