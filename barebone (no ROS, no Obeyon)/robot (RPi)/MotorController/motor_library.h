@@ -190,7 +190,7 @@ void setup_pin_for_motor_spd_encoding(){
   xTaskCreate(
     task_update_motor_RPM,
     "Motor speed publisher",
-    2048,
+    4096,
     NULL,
     1,
     &task_update_motor_RPM_handle

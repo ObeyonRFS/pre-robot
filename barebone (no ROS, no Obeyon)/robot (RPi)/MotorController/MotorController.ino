@@ -7,7 +7,7 @@
 
 
 void processJson(String &jsonString){
-  StaticJsonDocument<512> doc;
+  StaticJsonDocument<1024> doc;
   DeserializationError error = deserializeJson(doc, jsonString);
 
   if(error){
