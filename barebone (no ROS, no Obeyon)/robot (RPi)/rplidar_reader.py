@@ -4,7 +4,7 @@ import ports_finder
 # Change this to your port (e.g. "COM3" on Windows or "/dev/ttyUSB0" on Linux)
 # PORT_NAME = '/dev/ttyUSB0'
 
-ports = ports_finder.find_possible_ESP32_ports()
+ports = ports_finder.find_possible_RPLidar_ports()
 if len(ports) != 1:
     raise SystemExit("ESP32 not found or too many devices")
 
