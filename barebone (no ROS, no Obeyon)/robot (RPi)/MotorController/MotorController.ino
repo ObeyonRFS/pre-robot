@@ -7,7 +7,7 @@
 
 
 void processJson(String &jsonString){
-  StaticJsonDocument<200> doc;
+  StaticJsonDocument<1024> doc;
   DeserializationError error = deserializeJson(doc, jsonString);
 
   if(error){
@@ -18,6 +18,7 @@ void processJson(String &jsonString){
 
   const char* command = doc["command"];
   if (strcmp(command, "set_motor_power")==0){
+    motor_with_PID = false;
     int L=doc["parameters"]["L"];
     int R=doc["parameters"]["R"];
     setMotorPower(L,R);
@@ -26,7 +27,10 @@ void processJson(String &jsonString){
   }
 
   if (strcmp(command, "set_motor_speed")==0){
-
+    motor_with_PID = true;
+    target_motorRPM_L=doc["parameters"]["L"];
+    target_motorRPM_R=doc["parameters"]["R"];
+    Serial.printf("Motor's target speed set -> L:%.2f RPM  R:%.2f RPM\n", target_motorRPM_L, target_motorRPM_R);
   }
 }
 

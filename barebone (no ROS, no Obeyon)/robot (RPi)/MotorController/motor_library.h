@@ -104,6 +104,19 @@ void IRAM_ATTR right_encoderISR(){
 
 TaskHandle_t task_update_motor_RPM_handle = NULL;
 
+bool motor_with_PID = false;
+float Kp = 0.5;
+float Ki = 0.2;
+float Kd = 0.1;
+
+float target_motorRPM_L = 0.0;
+float target_motorRPM_R = 0.0;
+
+float prev_error_L = 0;
+float integral_L = 0;
+float prev_error_R = 0;
+float integral_R = 0;
+
 void task_update_motor_RPM(void *pvParameters){
   while(true){
     unsigned long currentTime = millis();
@@ -124,18 +137,44 @@ void task_update_motor_RPM(void *pvParameters){
       right_motorRPM = (right_count/(float)PPR) * (60000.0 / dt);
 
 
-      Serial.print("Motor RPM: ");
-      Serial.print(left_motorRPM);
-      Serial.print(" ");
-      Serial.println(right_motorRPM);
+
+
+      if(motor_with_PID==true){
+        float error_L = target_motorRPM_L - left_motorRPM;
+        integral_L += error_L;
+        float derivative_L = error_L - prev_error_L;
+        int output_L = (Kp * error_L) + (Ki * integral_L) + (Kd * derivative_L);
+
+        float error_R = target_motorRPM_R - right_motorRPM;
+        integral_R += error_R;
+        float derivative_R = error_R - prev_error_R;
+        int output_R = (Kp * error_R) + (Ki * integral_R) + (Kd * derivative_R);
+
+
+        prev_error_L = error_L;
+        prev_error_R = error_R;
+
+        output_L = constrain(output_L, -255,255);
+        output_R = constrain(output_R, -255,255);
+        setMotorPower(output_L,output_R);
+
+        Serial.printf("Target %.2f %.2f | Current %.2f %.2f | Output %d %d\n", 
+                      target_motorRPM_L, target_motorRPM_R, 
+                      left_motorRPM, right_motorRPM, 
+                      output_L, output_R);
+
+      }else{
+        Serial.print("Motor RPM: ");
+        Serial.print(left_motorRPM);
+        Serial.print(" ");
+        Serial.println(right_motorRPM);
+      }
 
       left_lastTime = currentTime;
       right_lastTime = currentTime;
-
     }
   }
 }
-
 
 void setup_pin_for_motor_spd_encoding(){
   pinMode(LEFT_encoderA, INPUT);
