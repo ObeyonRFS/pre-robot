@@ -13,7 +13,7 @@ except Exception as e:
     print(f"Error opening serial port: {e}")
     exit()
 
-print("Reading motor RPM... Press Ctrl+C to stop.")
+print("Reading serial... Press Ctrl+C to stop.")
 
 try:
     while True:
