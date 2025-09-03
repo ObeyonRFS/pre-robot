@@ -105,9 +105,13 @@ void IRAM_ATTR right_encoderISR(){
 TaskHandle_t task_update_motor_RPM_handle = NULL;
 
 bool motor_with_PID = false;
-float Kp = 0.5;
-float Ki = 0.2;
-float Kd = 0.1;
+// float Kp = 0.5;
+// float Ki = 0.2;
+// float Kd = 0.1;
+
+float Kp = 20;
+float Ki = 10;
+float Kd = 0;
 
 float target_motorRPM_L = 0.0;
 float target_motorRPM_R = 0.0;
