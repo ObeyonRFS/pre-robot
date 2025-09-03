@@ -32,6 +32,13 @@ void processJson(String &jsonString){
     target_motorRPM_R=doc["parameters"]["R"];
     Serial.printf("Motor's target speed set -> L:%.2f RPM  R:%.2f RPM\n", target_motorRPM_L, target_motorRPM_R);
   }
+
+  if (strcmp(command, "set_motor_PID")==0){
+    Kp=doc["parameters"]["Kp"];
+    Ki=doc["parameters"]["Ki"];
+    Kd=doc["parameters"]["Kd"];
+    Serial.printf("Motor's PID set -> Kp:%.2f  Ki:%.2f Kd:%.2f\n", Kp, Ki, Kd);
+  }
 }
 
 void task_process_serial(void *pvParameters){
